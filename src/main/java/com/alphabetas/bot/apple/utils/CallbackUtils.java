@@ -57,7 +57,7 @@ public class CallbackUtils {
             winner.setGames(winner.getGames()+1);
             loser.setGames(loser.getGames()+1);
 
-            int score = new Random().nextInt(5, 8);
+            int score = new Random().nextInt(3)+5;
             winner.setScore(winner.getScore()+score);
             loser.setScore(loser.getScore()-score);
             StringBuilder builder = new StringBuilder("Гра закінчена! Переможець:\n")

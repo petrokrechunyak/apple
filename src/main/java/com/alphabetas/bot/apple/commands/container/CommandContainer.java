@@ -25,7 +25,7 @@ public class CommandContainer {
     private Map<String, Command> commands = new HashMap<>();
 
     @Autowired
-    public CommandContainer(MessageService service, CallerChatRepo callerChatRepo,
+    public CommandContainer(CallerChatRepo callerChatRepo,
                             CallerNameRepo callerNameRepo, CallerUserRepo callerUserRepo,
                             ApplePlayerRepo applePlayerRepo,
                             PlayCommand playCommand, TopCommand topCommand) {
