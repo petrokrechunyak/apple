@@ -47,13 +47,17 @@ public class CallbackUtils {
         int apples = data.length() / 2;
         game.setCurrentPlayer(getNotCurrentPlayer(game));
         game.setApples(game.getApples() - apples);
-        if(game.getApples() <= 0) {
-
+        if(game.getApples() <= 1) {
+		ApplePlayer winner;
+		ApplePlayer loser;
             appleGameRepo.delete(game);
-
-            ApplePlayer winner = game.getCurrentPlayer();
-            ApplePlayer loser = getNotCurrentPlayer(game);
-
+		if(game.getApples() == 1) {
+            		loser = game.getCurrentPlayer();
+            		winner = getNotCurrentPlayer(game);
+		} else {
+			winner = game.getCurrentPlayer();
+			loser = getNotCurrentPlayer(game);
+			}
             winner.setGames(winner.getGames()+1);
             loser.setGames(loser.getGames()+1);
 
@@ -61,11 +65,11 @@ public class CallbackUtils {
             winner.setScore(winner.getScore()+score);
             loser.setScore(loser.getScore()-score);
             StringBuilder builder = new StringBuilder("Гра закінчена! Переможець:\n")
-                    .append(Getter.makeLink(game.getCurrentPlayer().getPlayer().getUserId(),
-                            game.getCurrentPlayer().getPlayer().getFirstname()))
+                    .append(Getter.makeLink(winner.getPlayer().getUserId(),
+                            winner.getPlayer().getFirstname()))
                     .append(" +").append(score).append("\uD83C\uDFC6\n")
-                    .append(Getter.makeLink(game.getCurrentPlayer().getPlayer().getUserId(),
-                            getNotCurrentPlayer(game).getPlayer().getFirstname()))
+                    .append(Getter.makeLink(loser.getPlayer().getUserId(),
+                            loser.getPlayer().getFirstname()))
                     .append(" -").append(score).append("\uD83C\uDFC6");
             service.editMessage(chatId, game.getMessageId(), builder.toString());
 
