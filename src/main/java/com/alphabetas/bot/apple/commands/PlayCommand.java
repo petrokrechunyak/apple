@@ -133,7 +133,7 @@ public class PlayCommand implements Command{
                 user = Getter.getUser(player, chatId);
             } else {
                 int argNum = args.length;
-                CallerName name = callerNameRepo.getByChatIdAndAndName(chatId, args[argNum-1]);
+                CallerName name = callerNameRepo.getByChatIdAndNameIgnoreCase(chatId, args[argNum-1]);
                 user = name.getCallerUser();
             }
         } catch (NullPointerException e) {

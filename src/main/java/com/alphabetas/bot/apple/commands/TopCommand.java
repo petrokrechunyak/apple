@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 @Slf4j
@@ -54,9 +55,10 @@ public class TopCommand implements Command{
                     .append(Getter.makeLink(p.getPlayer().getUserId(), p.getPlayer().getFirstname()))
                     .append(" — ").append(p.getGames()).append("\uD83D\uDD79\n");
         }
-        SendMessage message = new SendMessage(chatId.toString(), builder.toString());
+        SendMessage message = new SendMessage(chatId.toString(), "Топ 10 гравців");
         message.enableHtml(true);
         message.disableNotification();
-        service.sendMessage(message);
+        Message m = service.sendMessage(message);
+        service.editMessage(chatId, m.getMessageId().longValue(), builder.toString());
     }
 }
