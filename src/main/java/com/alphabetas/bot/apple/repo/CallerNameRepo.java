@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Set;
 
 public interface CallerNameRepo extends JpaRepository<CallerName, Long> {
-    CallerName getByChatIdAndAndName(Long chatId, String name);
+    CallerName getByChatIdAndNameIgnoreCase(Long chatId, String name);
 
     Set<CallerName> getAllByChatId(Long chatId);
 
