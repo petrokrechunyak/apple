@@ -83,7 +83,7 @@ public class PlayCommand implements Command{
         game.setMessageId(message.getMessageId().longValue());
 
         appleGameRepo.save(game);
-        notificationRepo.save(new Notification(game));
+//        notificationRepo.save(new Notification(game));
 
 
     }

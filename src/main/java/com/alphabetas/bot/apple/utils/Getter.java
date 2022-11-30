@@ -39,7 +39,7 @@ public class Getter {
     @Autowired
     private MessageService service;
 
-    @Scheduled(fixedDelay = 10000)
+//    @Scheduled(fixedDelay = 10000)
     public void notification() {
 
         var notificationList = notificationRepo.findAll();

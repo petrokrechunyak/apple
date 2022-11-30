@@ -55,9 +55,9 @@ public class CallbackUtils {
         applePlayerRepo.save(game.getCurrentPlayer());
 
         // change current player
-        notificationRepo.deleteAllByGame(game);
+//        notificationRepo.deleteAllByGame(game);
         game.setCurrentPlayer(getNotCurrentPlayer(game));
-        notificationRepo.save(new Notification(game));
+//        notificationRepo.save(new Notification(game));
 
         game.setApples(game.getApples() - apples);
         if(game.getApples() <= 1) {
@@ -94,7 +94,7 @@ public class CallbackUtils {
             applePlayerRepo.save(loser);
 
 
-            notificationRepo.deleteAllByGame(game);
+//            notificationRepo.deleteAllByGame(game);
             appleGameRepo.deleteAllByPlayer1AndChat(game.getPlayer1(), chat);
 
             return;
