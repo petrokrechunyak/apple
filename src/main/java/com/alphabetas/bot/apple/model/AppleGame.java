@@ -1,6 +1,10 @@
 package com.alphabetas.bot.apple.model;
 
+import com.alphabetas.bot.apple.model.enums.GameDesign;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -37,13 +41,18 @@ public class AppleGame {
 
     private Integer apples;
 
+    @Enumerated(EnumType.STRING)
+    private GameDesign gameDesign;
+
     private Long messageId;
 
-    public AppleGame(CallerChat chat, ApplePlayer player1, ApplePlayer player2, ApplePlayer currentPlayer, Integer apples) {
+
+    public AppleGame(CallerChat chat, ApplePlayer player1, ApplePlayer player2, ApplePlayer currentPlayer, Integer apples, GameDesign gameDesign) {
         this.chat = chat;
         this.player1 = player1;
         this.player2 = player2;
         this.currentPlayer = currentPlayer;
         this.apples = apples;
+        this.gameDesign = gameDesign;
     }
 }

@@ -31,12 +31,15 @@ public class ApplePlayer implements Comparable<ApplePlayer>{
     private Integer games;
 
     private Integer score;
+    
+    private Long eaten;
 
     public ApplePlayer(CallerUser player, CallerChat chat) {
         this.player = player;
         this.chat = chat;
         games = 0;
         score = 0;
+        eaten = 0L;
     }
 
     public ApplePlayer(CallerUser player, Integer games, Integer score) {
@@ -59,6 +62,14 @@ public class ApplePlayer implements Comparable<ApplePlayer>{
 
     public void setGames(Integer games) {
         this.games = games;
+    }
+
+    public Long getEaten() {
+        return eaten;
+    }
+
+    public void setEaten(Long eaten) {
+        this.eaten = eaten;
     }
 
     public void setScore(Integer score) {

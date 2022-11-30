@@ -33,9 +33,7 @@ public class AppleBot extends TelegramLongPollingBot {
         if(update.hasMessage() && givenMessage != null) {
             log.info("Update received with text: {}", update.getMessage().getText());
             String msgText = givenMessage.getText();
-            if(msgText.startsWith("/")) {
                 readCommand(update, msgText.split(" ")[0]);
-            }
         }
         if(update.hasCallbackQuery()) {
             CallbackQuery callbackQuery = update.getCallbackQuery();
@@ -49,7 +47,7 @@ public class AppleBot extends TelegramLongPollingBot {
         String[] parts = text.split("@");
         log.info("Entered into readCommand, {}", parts);
         if(parts.length == 1 || parts[1].equals("GameDontEatGreenAppleBot")) {
-            container.getCommand(parts[0]).execute(update);
+            container.getCommand(parts[0].toLowerCase()).execute(update);
         }
     }
 
