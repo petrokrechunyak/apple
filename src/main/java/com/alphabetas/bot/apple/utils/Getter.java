@@ -43,6 +43,9 @@ public class Getter {
     public void notification() {
 
         var notificationList = notificationRepo.findAll();
+        notificationList.removeIf(x -> x.getWaitingTime() > 30);
+        notificationRepo.deleteAll();
+        notificationRepo.saveAll(notificationList);
         var ref = new Object() {
             List<Notification> newNotifications = new ArrayList<>();
         };
@@ -73,7 +76,6 @@ public class Getter {
 
                 });
 
-        notificationRepo.saveAll(ref.newNotifications);
         ref.newNotifications = ref.newNotifications.stream().filter(x -> x.getWaitingTime() >= 30).collect(Collectors.toList());
         notificationRepo.deleteAll(ref.newNotifications);
     }
