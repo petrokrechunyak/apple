@@ -93,8 +93,8 @@ public class CallbackUtils {
             applePlayerRepo.save(winner);
             applePlayerRepo.save(loser);
 
-            appleGameRepo.deleteAllByPlayer1AndChat(game.getPlayer1(), chat);
             notificationRepo.deleteAllByGame(game);
+            appleGameRepo.deleteAllByPlayer1AndChat(game.getPlayer1(), chat);
 
             return;
         }

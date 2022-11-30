@@ -73,7 +73,9 @@ public class PlayCommand implements Command{
 
         AppleGame oldGame = appleGameRepo.findByPlayer1AndChat(game.getPlayer1(), Getter.getChat(chatId));
         if(oldGame != null) {
-            service.editMessage(chatId, oldGame.getMessageId(), "Гра завершена :(   ");
+            try {
+                service.editMessage(chatId, oldGame.getMessageId(), "Гра завершена :(   ");
+            } catch (Exception e) {}
             notificationRepo.deleteAllByGame(oldGame);
             appleGameRepo.deleteAllByPlayer1AndChat(game.getPlayer1(), game.getChat());
         }
