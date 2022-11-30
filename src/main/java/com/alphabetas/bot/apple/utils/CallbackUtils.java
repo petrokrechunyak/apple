@@ -1,5 +1,7 @@
 package com.alphabetas.bot.apple.utils;
 
+import com.alphabetas.bot.apple.model.Notification;
+import com.alphabetas.bot.apple.repo.NotificationRepo;
 import com.alphabetas.bot.apple.service.MessageService;
 import com.alphabetas.bot.apple.commands.PlayCommand;
 import com.alphabetas.bot.apple.model.AppleGame;
@@ -13,6 +15,7 @@ import com.alphabetas.bot.apple.repo.CallerUserRepo;
 import java.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.User;
 
@@ -27,6 +30,8 @@ public class CallbackUtils {
     private AppleGameRepo appleGameRepo;
     @Autowired
     private ApplePlayerRepo applePlayerRepo;
+    @Autowired
+    private NotificationRepo notificationRepo;
 
     public CallbackUtils(CallerChatRepo callerChatRepo, CallerNameRepo callerNameRepo, CallerUserRepo callerUserRepo, AppleGameRepo appleGameRepo) {
         this.callerChatRepo = callerChatRepo;
@@ -36,6 +41,7 @@ public class CallbackUtils {
     }
 
 
+    @Transactional
     public void game(String data, User from, Long chatId, Long messageId) {
 
         CallerChat chat = Getter.getChat(chatId);
@@ -45,14 +51,29 @@ public class CallbackUtils {
             return;
 
         int apples = data.length() / 2;
-        game.setCurrentPlayer(getNotCurrentPlayer(game));
-        game.setApples(game.getApples() - apples);
-        if(game.getApples() <= 0) {
+        game.getCurrentPlayer().setEaten(game.getCurrentPlayer().getEaten() + apples);
+        applePlayerRepo.save(game.getCurrentPlayer());
 
+        // change current player
+        notificationRepo.deleteAllByGame(game);
+        game.setCurrentPlayer(getNotCurrentPlayer(game));
+        notificationRepo.save(new Notification(game));
+
+        game.setApples(game.getApples() - apples);
+        if(game.getApples() <= 1) {
+
+
+            ApplePlayer winner;
+            ApplePlayer loser;
             appleGameRepo.delete(game);
 
-            ApplePlayer winner = game.getCurrentPlayer();
-            ApplePlayer loser = getNotCurrentPlayer(game);
+            if(game.getApples() == 0) {
+                winner = game.getCurrentPlayer();
+                loser = getNotCurrentPlayer(game);
+            } else {
+                loser = game.getCurrentPlayer();
+                winner = getNotCurrentPlayer(game);
+            }
 
             winner.setGames(winner.getGames()+1);
             loser.setGames(loser.getGames()+1);
@@ -73,15 +94,17 @@ public class CallbackUtils {
             applePlayerRepo.save(loser);
 
             appleGameRepo.deleteAllByPlayer1AndChat(game.getPlayer1(), chat);
+            notificationRepo.deleteAllByGame(game);
 
             return;
         }
 
 
+
         EditMessageText editMessageText = new EditMessageText(PlayCommand.prepareGameString(game));
         editMessageText.setChatId(chatId);
         editMessageText.setMessageId(game.getMessageId().intValue());
-        editMessageText.setReplyMarkup(PlayCommand.prepareKeyboard(game.getApples()));
+        editMessageText.setReplyMarkup(PlayCommand.prepareKeyboard(game));
         editMessageText.setParseMode("html");
         service.sendMessage(editMessageText);
 

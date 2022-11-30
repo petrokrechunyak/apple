@@ -1,6 +1,7 @@
 package com.alphabetas.bot.apple.commands.container;
 
 import com.alphabetas.bot.apple.commands.Command;
+import com.alphabetas.bot.apple.commands.NoCommand;
 import com.alphabetas.bot.apple.commands.PlayCommand;
 import com.alphabetas.bot.apple.commands.TopCommand;
 import com.alphabetas.bot.apple.repo.CallerNameRepo;
@@ -21,23 +22,26 @@ public class CommandContainer {
     private CallerChatRepo callerChatRepo;
     private CallerNameRepo callerNameRepo;
     private CallerUserRepo callerUserRepo;
+    private NoCommand noCommand;
 
     private Map<String, Command> commands = new HashMap<>();
 
     @Autowired
-    public CommandContainer(MessageService service, CallerChatRepo callerChatRepo,
+    public CommandContainer(CallerChatRepo callerChatRepo,
                             CallerNameRepo callerNameRepo, CallerUserRepo callerUserRepo,
                             ApplePlayerRepo applePlayerRepo,
-                            PlayCommand playCommand, TopCommand topCommand) {
+                            PlayCommand playCommand, TopCommand topCommand,
+                            NoCommand noCommand) {
         this(callerChatRepo, callerNameRepo, callerUserRepo, applePlayerRepo);
-//        commands.put("/start", startCommand);
+        this.noCommand = noCommand;
         commands.put("/play", playCommand);
         commands.put("/top", topCommand);
+        commands.put("плей", playCommand);
     }
 
 
     public Command getCommand(String command) {
-        return commands.get(command);
+        return commands.getOrDefault(command, noCommand);
     }
 
     public CommandContainer(CallerChatRepo callerChatRepo, CallerNameRepo callerNameRepo, CallerUserRepo callerUserRepo,

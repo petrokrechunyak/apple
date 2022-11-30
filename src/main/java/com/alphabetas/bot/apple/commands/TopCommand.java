@@ -55,6 +55,15 @@ public class TopCommand implements Command{
                     .append(Getter.makeLink(p.getPlayer().getUserId(), p.getPlayer().getFirstname()))
                     .append(" — ").append(p.getGames()).append("\uD83D\uDD79\n");
         }
+        top = applePlayerRepo.findTop10ByChatOrderByEatenDesc(chat);
+        builder.append("\n<b>Топ голодних гравців чату</b>\n");
+        for(int i = 0; i < top.size(); i++) {
+            ApplePlayer p = top.get(i);
+            builder.append("<b>").append(i+1).append(".</b> ")
+                    .append(Getter.makeLink(p.getPlayer().getUserId(), p.getPlayer().getFirstname()))
+                    .append(" — ").append(p.getEaten()).append("\uD83C\uDF4E\n");
+        }
+
         SendMessage message = new SendMessage(chatId.toString(), "Топ 10 гравців");
         message.enableHtml(true);
         message.disableNotification();

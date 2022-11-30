@@ -16,6 +16,8 @@ public interface ApplePlayerRepo extends JpaRepository<ApplePlayer, Long> {
 
     List<ApplePlayer> findTop10ByChatOrderByGamesDesc(CallerChat chat);
 
+    List<ApplePlayer> findTop10ByChatOrderByEatenDesc(CallerChat chat);
+
     ApplePlayer findByPlayer(CallerUser player);
 
     Optional<ApplePlayer> findByPlayerAndChat(CallerUser user, CallerChat chat);
