@@ -121,7 +121,7 @@ public class PlayCommand implements Command{
             }
         }
         if(apples == null) {
-            apples = new Random().nextInt(15, 40);
+            apples = new Random().nextInt(25)+15;
         }
 
         GameDesign gameDesign;

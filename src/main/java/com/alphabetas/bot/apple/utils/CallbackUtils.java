@@ -62,7 +62,6 @@ public class CallbackUtils {
         game.setApples(game.getApples() - apples);
         if(game.getApples() <= 1) {
 
-
             ApplePlayer winner;
             ApplePlayer loser;
             appleGameRepo.delete(game);
@@ -78,15 +77,15 @@ public class CallbackUtils {
             winner.setGames(winner.getGames()+1);
             loser.setGames(loser.getGames()+1);
 
-            int score = new Random().nextInt(5, 8);
+            int score = new Random().nextInt(3)+5;
             winner.setScore(winner.getScore()+score);
             loser.setScore(loser.getScore()-score);
             StringBuilder builder = new StringBuilder("Гра закінчена! Переможець:\n")
-                    .append(Getter.makeLink(game.getCurrentPlayer().getPlayer().getUserId(),
-                            game.getCurrentPlayer().getPlayer().getFirstname()))
+                    .append(Getter.makeLink(winner.getPlayer().getUserId(),
+                            winner.getPlayer().getFirstname()))
                     .append(" +").append(score).append("\uD83C\uDFC6\n")
-                    .append(Getter.makeLink(game.getCurrentPlayer().getPlayer().getUserId(),
-                            getNotCurrentPlayer(game).getPlayer().getFirstname()))
+                    .append(Getter.makeLink(loser.getPlayer().getUserId(),
+                            loser.getPlayer().getFirstname()))
                     .append(" -").append(score).append("\uD83C\uDFC6");
             service.editMessage(chatId, game.getMessageId(), builder.toString());
 

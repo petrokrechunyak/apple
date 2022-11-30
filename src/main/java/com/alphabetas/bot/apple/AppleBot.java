@@ -24,7 +24,7 @@ public class AppleBot extends TelegramLongPollingBot {
     MessageService service;
 
     public AppleBot() {
-        this.service = new MessageServiceImpl(this);
+       // this.service = new MessageServiceImpl(this);
     }
 
     @Override

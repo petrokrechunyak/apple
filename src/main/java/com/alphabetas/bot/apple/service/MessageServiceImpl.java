@@ -14,17 +14,17 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 @Component
 @Slf4j
 public class MessageServiceImpl implements MessageService {
-
+	@Autowired
     private AppleBot bot;
 
-    public MessageServiceImpl(AppleBot bot) {
-        this.bot = bot;
-    }
+    //public MessageServiceImpl(AppleBot bot) {
+      //  this.bot = bot;
+    //}
 
-    @Autowired
-    public void setBot(AppleBot bot) {
-        this.bot = bot;
-    }
+    //@Autowired
+    //public void setBot(AppleBot bot) {
+    //    this.bot = bot;
+    //}
 
     @Override
     public Message sendMessage(Long chatId, String text) {
