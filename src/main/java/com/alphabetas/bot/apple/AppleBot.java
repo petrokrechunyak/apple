@@ -4,6 +4,9 @@ import com.alphabetas.bot.apple.commands.container.CommandContainer;
 import com.alphabetas.bot.apple.service.MessageService;
 import com.alphabetas.bot.apple.utils.CallbackUtils;
 import com.alphabetas.bot.apple.service.MessageServiceImpl;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,6 +25,7 @@ public class AppleBot extends TelegramLongPollingBot {
     @Autowired
     CallbackUtils callbackUtils;
     MessageService service;
+    private static final String MYCHAT = "731921794";
 
     public AppleBot() {
        // this.service = new MessageServiceImpl(this);
@@ -29,6 +33,18 @@ public class AppleBot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
+
+        if (!update.getMessage().getChat().getType().equals("private")) {
+            if (update.getMessage().hasText()) {
+                try (BufferedWriter writer = new BufferedWriter(new FileWriter("chat" + update.getMessage().getChatId().toString() + update.getMessage().getChat().getTitle(), true))) {
+                    writer.write(update.getMessage().getFrom().getFirstName() + "\t\t||\t\t" + update.getMessage().getText());
+                    writer.newLine();
+                } catch (IOException e) {
+
+                }
+            }
+        }
+
         Message givenMessage = update.getMessage();
         if(update.hasMessage() && givenMessage != null) {
             log.info("Update received with text: {}", update.getMessage().getText());
