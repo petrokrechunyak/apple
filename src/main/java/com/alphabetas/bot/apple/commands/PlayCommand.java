@@ -165,8 +165,8 @@ public class PlayCommand implements Command{
     public static String prepareGameString(AppleGame game) {
         String prepareStr;
         switch (game.getGameDesign()) {
-            case MELON -> prepareStr = prepareGameString(game, "\uD83C\uDF49", "\uD83C\uDF30", "Кавуни");
-            default -> prepareStr = prepareGameString(game, "\uD83C\uDF4E", "\uD83C\uDF4F", "Яблука");
+            case MELON: prepareStr = prepareGameString(game, "\uD83C\uDF49", "\uD83C\uDF30", "Кавуни"); break;
+            default: prepareStr = prepareGameString(game, "\uD83C\uDF4E", "\uD83C\uDF4F", "Яблука"); break;
         }
         return prepareStr;
     }
@@ -195,8 +195,8 @@ public class PlayCommand implements Command{
 
         String btn;
         switch (game.getGameDesign()) {
-            case MELON -> btn = "\uD83C\uDF49";
-            default -> btn = "\uD83C\uDF4E";
+            case MELON: btn = "\uD83C\uDF49"; break;
+            default: btn = "\uD83C\uDF4E"; break;
         }
 
         row.add(button(btn,1));
