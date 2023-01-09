@@ -34,20 +34,8 @@ public class AppleBot extends TelegramLongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
 
-        if (!update.getMessage().getChat().getType().equals("private")) {
-            if (update.getMessage().hasText()) {
-                try (BufferedWriter writer = new BufferedWriter(new FileWriter("chat" + update.getMessage().getChatId().toString() + update.getMessage().getChat().getTitle(), true))) {
-                    writer.write(update.getMessage().getFrom().getFirstName() + "\t\t||\t\t" + update.getMessage().getText());
-                    writer.newLine();
-                } catch (IOException e) {
-
-                }
-            }
-        }
-
         Message givenMessage = update.getMessage();
         if(update.hasMessage() && givenMessage != null) {
-            log.info("Update received with text: {}", update.getMessage().getText());
             String msgText = givenMessage.getText();
                 readCommand(update, msgText.split(" ")[0]);
         }
