@@ -22,7 +22,6 @@ import org.telegram.telegrambots.meta.api.objects.User;
 @Component
 public class CallbackUtils {
 
-    @Autowired
     private MessageService service;
     private CallerChatRepo callerChatRepo;
     private CallerNameRepo callerNameRepo;
@@ -33,11 +32,13 @@ public class CallbackUtils {
     @Autowired
     private NotificationRepo notificationRepo;
 
-    public CallbackUtils(CallerChatRepo callerChatRepo, CallerNameRepo callerNameRepo, CallerUserRepo callerUserRepo, AppleGameRepo appleGameRepo) {
+    public CallbackUtils(CallerChatRepo callerChatRepo, CallerNameRepo callerNameRepo, CallerUserRepo callerUserRepo, AppleGameRepo appleGameRepo,
+                         MessageService messageService) {
         this.callerChatRepo = callerChatRepo;
         this.callerNameRepo = callerNameRepo;
         this.callerUserRepo = callerUserRepo;
         this.appleGameRepo = appleGameRepo;
+        this.service = messageService;
     }
 
 

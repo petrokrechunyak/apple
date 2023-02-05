@@ -20,7 +20,6 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 @Slf4j
 @Component
 public class AppleBot extends TelegramLongPollingBot {
-    @Autowired
     CallbackUtils callbackUtils;
     MessageService service;
     private static final String MYCHAT = "731921794";
@@ -33,6 +32,8 @@ public class AppleBot extends TelegramLongPollingBot {
         MessageService messageService = new MessageServiceImpl(this);
         this.container = new CommandContainer(callerChatRepo, callerNameRepo, callerUserRepo,
                 applePlayerRepo, appleGameRepo, messageService);
+        this.callbackUtils = new CallbackUtils(callerChatRepo, callerNameRepo, callerUserRepo, appleGameRepo,
+                messageService);
 
     }
 
