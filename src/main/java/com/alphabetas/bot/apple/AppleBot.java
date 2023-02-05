@@ -38,9 +38,9 @@ public class AppleBot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
+
         Message givenMessage = update.getMessage();
         if(update.hasMessage() && givenMessage != null) {
-            log.info("Update received with text: {}", update.getMessage().getText());
             String msgText = givenMessage.getText();
                 readCommand(update, msgText.split(" ")[0]);
         }
