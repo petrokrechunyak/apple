@@ -20,7 +20,6 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 @Component
 public class TopCommand implements Command{
 
-    @Autowired
     MessageService service;
     private CallerChatRepo callerChatRepo;
     private CallerNameRepo callerNameRepo;
@@ -28,11 +27,12 @@ public class TopCommand implements Command{
     private ApplePlayerRepo applePlayerRepo;
 
     public TopCommand(CallerChatRepo callerChatRepo, CallerNameRepo callerNameRepo, CallerUserRepo callerUserRepo,
-                      ApplePlayerRepo applePlayerRepo) {
+                      ApplePlayerRepo applePlayerRepo, MessageService messageService) {
         this.callerChatRepo = callerChatRepo;
         this.callerNameRepo = callerNameRepo;
         this.callerUserRepo = callerUserRepo;
         this.applePlayerRepo = applePlayerRepo;
+        this.service = messageService;
     }
 
     @Override

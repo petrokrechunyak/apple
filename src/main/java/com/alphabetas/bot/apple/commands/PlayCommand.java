@@ -35,7 +35,6 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKe
 @Slf4j
 public class PlayCommand implements Command{
 
-    @Autowired
     private MessageService service;
     private CallerChatRepo callerChatRepo;
     private CallerNameRepo callerNameRepo;
@@ -46,11 +45,13 @@ public class PlayCommand implements Command{
     @Autowired
     private NotificationRepo notificationRepo;
 
-    public PlayCommand(CallerChatRepo callerChatRepo, CallerNameRepo callerNameRepo, CallerUserRepo callerUserRepo, AppleGameRepo appleGameRepo) {
+    public PlayCommand(CallerChatRepo callerChatRepo, CallerNameRepo callerNameRepo, CallerUserRepo callerUserRepo, AppleGameRepo appleGameRepo,
+                       MessageService messageService) {
         this.callerChatRepo = callerChatRepo;
         this.callerNameRepo = callerNameRepo;
         this.callerUserRepo = callerUserRepo;
         this.appleGameRepo = appleGameRepo;
+        this.service = messageService;
     }
 
     @Transactional

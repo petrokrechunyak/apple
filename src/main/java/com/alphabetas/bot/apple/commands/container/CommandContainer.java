@@ -4,18 +4,15 @@ import com.alphabetas.bot.apple.commands.Command;
 import com.alphabetas.bot.apple.commands.NoCommand;
 import com.alphabetas.bot.apple.commands.PlayCommand;
 import com.alphabetas.bot.apple.commands.TopCommand;
-import com.alphabetas.bot.apple.repo.CallerNameRepo;
-import com.alphabetas.bot.apple.repo.CallerUserRepo;
+import com.alphabetas.bot.apple.repo.*;
 import com.alphabetas.bot.apple.service.MessageService;
 import com.alphabetas.bot.apple.utils.Getter;
-import com.alphabetas.bot.apple.repo.ApplePlayerRepo;
-import com.alphabetas.bot.apple.repo.CallerChatRepo;
+
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-@Component
 public class CommandContainer {
 
     // Repos
@@ -26,22 +23,22 @@ public class CommandContainer {
 
     private Map<String, Command> commands = new HashMap<>();
 
-    @Autowired
     public CommandContainer(CallerChatRepo callerChatRepo,
                             CallerNameRepo callerNameRepo, CallerUserRepo callerUserRepo,
-                            ApplePlayerRepo applePlayerRepo,
-                            PlayCommand playCommand, TopCommand topCommand,
-                            NoCommand noCommand) {
+                            ApplePlayerRepo applePlayerRepo, AppleGameRepo appleGameRepo,
+                            MessageService messageService) {
         this(callerChatRepo, callerNameRepo, callerUserRepo, applePlayerRepo);
-        this.noCommand = noCommand;
-        commands.put("/play", playCommand);
-        commands.put("/top", topCommand);
-        commands.put("плей", playCommand);
+        PlayCommand command = new PlayCommand(callerChatRepo, callerNameRepo, callerUserRepo, appleGameRepo,
+                messageService);
+
+        commands.put("/play", command);
+        commands.put("/top", new TopCommand(callerChatRepo, callerNameRepo, callerUserRepo, applePlayerRepo, messageService));
+        commands.put("плей", command);
     }
 
 
     public Command getCommand(String command) {
-        return commands.getOrDefault(command, noCommand);
+        return commands.getOrDefault(command, new NoCommand());
     }
 
     public CommandContainer(CallerChatRepo callerChatRepo, CallerNameRepo callerNameRepo, CallerUserRepo callerUserRepo,
