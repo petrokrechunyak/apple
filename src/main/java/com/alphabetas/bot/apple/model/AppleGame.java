@@ -27,8 +27,7 @@ public class AppleGame {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
-    private CallerChat chat;
+    private Long chat;
 
     @OneToOne
     private ApplePlayer player1;
@@ -47,7 +46,7 @@ public class AppleGame {
     private Long messageId;
 
 
-    public AppleGame(CallerChat chat, ApplePlayer player1, ApplePlayer player2, ApplePlayer currentPlayer, Integer apples, GameDesign gameDesign) {
+    public AppleGame(Long chat, ApplePlayer player1, ApplePlayer player2, ApplePlayer currentPlayer, Integer apples, GameDesign gameDesign) {
         this.chat = chat;
         this.player1 = player1;
         this.player2 = player2;
